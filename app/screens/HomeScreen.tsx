@@ -34,6 +34,7 @@ const HomeScreen: React.FC<HomeScreenProps> = props => {
     setFilter,
     cart,
     searchItems,
+    search,
   } = productStore;
 
   useEffect(() => {
@@ -60,7 +61,8 @@ const HomeScreen: React.FC<HomeScreenProps> = props => {
         <View style={styles.inputContainer}>
           <TextInput
             autoComplete={'off'}
-            onChangeText={searchItems}
+            value={search}
+            onChangeText={text => searchItems(text)}
             style={styles.input}
             placeholder={'Search...'}
             placeholderTextColor={COLORS.grayText}

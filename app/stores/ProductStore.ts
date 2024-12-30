@@ -22,6 +22,7 @@ class ProductStore {
     category: string;
   } = {category: '', id: '', image: '', name: '', price: 0};
   loyaltyList: {date: string}[] = [];
+  search: string = '';
 
   constructor() {
     makeAutoObservable(this);
@@ -51,6 +52,7 @@ class ProductStore {
   };
 
   private applyFilter = () => {
+    this.search = '';
     this.filteredProducts = mockProducts.filter(
       product =>
         product.category.toLowerCase() === this.activeFilter.name.toLowerCase(),
@@ -58,9 +60,20 @@ class ProductStore {
   };
 
   searchItems = (text: string) => {
-    this.filteredProducts = mockProducts.filter(product =>
-      product.name.toLowerCase().includes(text.toLowerCase()),
-    );
+    this.search = text;
+    this.filteredProducts = mockProducts
+      .filter(
+        product =>
+          product.category.toLowerCase() ===
+          this.activeFilter.name.toLowerCase(),
+      )
+      .filter(product =>
+        product.name.toLowerCase().includes(this.search.toLowerCase()),
+      );
+  };
+
+  setSearch = (text: string) => {
+    this.search = text;
   };
 
   handlePlus = (product: Product) => {
