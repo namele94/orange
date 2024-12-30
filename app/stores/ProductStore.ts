@@ -1,6 +1,8 @@
 import {makeAutoObservable} from 'mobx';
 import {Filter, Product} from '../types';
 import {filterData, products as mockProducts} from '../data/mockData';
+import {makePersistable} from 'mobx-persist-store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export interface CartItem extends Product {
   quantity: number;
@@ -23,6 +25,12 @@ class ProductStore {
 
   constructor() {
     makeAutoObservable(this);
+
+    makePersistable(this, {
+      name: 'ProductStore',
+      properties: ['loyaltyList'],
+      storage: AsyncStorage,
+    });
   }
 
   loadProducts = () => {
